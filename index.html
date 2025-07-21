@@ -1,218 +1,204 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Tame Impala Fan Hub</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Tame Impala Fan Hub</title>
 
-<style>
-:root{--bg:#0d0d0d;--fg:#f3f3f3;--accent:#ff4d00;}
+  <style>
+    :root{--bg:#0d0d0d;--fg:#f3f3f3;--accent:#ff4d00;}
+    *{box-sizing:border-box;margin:0;padding:0;}
 
-*{box-sizing:border-box;margin:0;padding:0;}
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: sans-serif;
+      min-height: 100vh;
+      display: flex;           /* coloca los hijos en columna */
+      flex-direction: column;
+    }
 
-body{
-  background:var(--bg);
-  color:var(--fg);
-  font-family:sans-serif;
-  min-height:100vh;
-  display:flex;              /*  ⬅  coloca los hijos en columna  */
-  flex-direction:column;
-}
+    /* fondo borroso con portadas */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        url(img/currents.jpg),
+        url(img/lonerism.jpg),
+        url(img/innerspeaker.jpg),
+        url(img/slow-rush.jpg);
+      background-size: cover;
+      background-position: center;
+      filter: blur(15px) brightness(.35);
+    }
 
-/* fondo borroso con portadas */
-body::before{
-  content:"";
-  position:fixed;inset:0;z-index:-1;
-  background:url(img/currents.jpg),
-             url(img/lonerism.jpg),
-             url(img/innerspeaker.jpg),
-             url(img/slow-rush.jpg);
-  background-size:cover;
-  background-position:center;
-  filter:blur(15px) brightness(.35);
-}
+    h1 {
+      text-align: center;
+      font-size: clamp(1.8rem,4vw,3rem);
+      margin: 1.2rem 0;
+    }
 
-h1{text-align:center;font-size:clamp(1.8rem,4vw,3rem);margin:1.2rem 0;}
+    section {
+      max-width: 900px;
+      margin: auto;
+      width: 100%;
+      margin-bottom: 2rem;
+    }
 
-section{max-width:900px;margin:auto;width:100%;}
+    #news-box { margin-bottom: 2rem; }  /* bloque noticias arriba */
 
-#news-box{margin-bottom:2rem;}         /* bloque noticias arriba */
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+    }
 
-.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));}
+    .card {
+      background: #141414;
+      padding: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform .25s;
+    }
+    .card:hover { transform: translateY(-4px); }
+    .card h3 { font-size: 1.1rem; margin-bottom: .4rem; }
+    .card p  { font-size: .85rem; color: #bbb; }
 
-.card{
-  background:#141414;
-  padding:1rem;
-  border-radius:10px;
-  cursor:pointer;
-  transition:transform .25s;
-}
-.card:hover{transform:translateY(-4px);}
-.card h3{font-size:1.1rem;margin-bottom:.4rem;}
-.card p{font-size:.85rem;color:#bbb;}
+    /* miniatura noticias */
+    .news-img {
+      width: 100%;
+      height: 140px;          /* ajusta si quieres */
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 8px;
+      display: block;
+      margin-bottom: .6rem;
+    }
 
-.album-card{text-align:center;}
-.album-card img{
-  width:100%;
-  height:160px;
-  object-fit:cover;
-  border-radius:12px;
-  margin-bottom:.5rem;
-}
+    /* álbumes */
+    .album-card { text-align: center; }
+    .album-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: .5rem;
+    }
 
-#albums{margin-top:auto;}              /*  ⬅  empuja álbumes abajo  */
+    #albums { margin-top: auto; }  /* empuja álbumes abajo */
 
-#player{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.8);
-  display:none;align-items:center;justify-content:center;
-}
-#player iframe{
-  width:90vw;max-width:560px;aspect-ratio:16/9;
-  border:0;border-radius:8px;
-}
-#player button{
-  position:absolute;top:1rem;right:1rem;
-  font-size:2rem;background:none;border:0;color:#fff;cursor:pointer;
-}
+    /* reproductor flotante */
+    #player {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    #player iframe {
+      width: 90vw;
+      max-width: 560px;
+      aspect-ratio: 16/9;
+      border: 0;
+      border-radius: 8px;
+    }
+    #player button {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 2rem;
+      background: none;
+      border: 0;
+      color: #fff;
+      cursor: pointer;
+    }
 
-footer{margin-top:1rem;text-align:center;font-size:.8rem;padding:1rem 0;}
-a{color:var(--accent);}a:hover{text-decoration:underline;}
-
-/* Fondo difuminado con las 4 portadas */
-body::before{
-  content:\"\";position:fixed;inset:0;z-index:-1;
-  background:url(img/currents.jpg),
-             url(img/lonerism.jpg),
-             url(img/innerspeaker.jpg),
-             url(img/slow-rush.jpg);
-  background-size:cover;
-  background-position:center;
-  filter:blur(15px) brightness(.35);
-}
-
-h1{text-align:center;font-size:clamp(1.8rem,4vw,3rem);margin-bottom:1.5rem;}
-
-section{max-width:900px;margin:auto;margin-bottom:2rem;}
-.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));}
-
-.card{
-  background:#141414;
-  padding:1rem;
-  border-radius:10px;
-  cursor:pointer;
-  transition:transform .25s;
-}
-.card:hover{transform:translateY(-4px);}
-.card h3{font-size:1.1rem;margin-bottom:0.4rem;}
-.card p{font-size:.85rem;color:#bbb;}
-
-.album-card{text-align:center;}
-.album-card img{
-  width:100%;
-  height:160px;
-  object-fit:cover;
-  border-radius:12px;
-  margin-bottom:0.5rem;
-}
-
-a{color:var(--accent);}a:hover{text-decoration:underline;}
-
-/* Reproductor flotante */
-#player{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.8);
-  display:none;
-  align-items:center;
-  justify-content:center;
-}
-#player iframe{
-  width:90vw;
-  max-width:560px;
-  aspect-ratio:16/9;
-  border:0;
-  border-radius:8px;
-}
-#player button{
-  position:absolute;top:1rem;right:1rem;
-  font-size:2rem;
-  background:none;border:0;color:#fff;cursor:pointer;
-}
-
-footer{margin-top:auto;text-align:center;font-size:.8rem;padding:1rem 0;}
-</style>
+    footer {
+      margin-top: auto;
+      text-align: center;
+      font-size: .8rem;
+      padding: 1rem 0;
+    }
+    a { color: var(--accent); }
+    a:hover { text-decoration: underline; }
+  </style>
 </head>
 
 <body>
-<h1>TAME IMPALA <span style="color:var(--accent)">FAN HUB</span></h1>
+  <h1>TAME IMPALA <span style="color:var(--accent)">FAN HUB</span></h1>
 
-<!-- NOTICIAS ------------------------------------------------------------>
-<section>
-  <div id="news-box" class="grid"></div>
-</section>
+  <!-- NOTICIAS -->
+  <section>
+    <div id="news-box" class="grid"></div>
+  </section>
 
-<!-- ÁLBUMES ------------------------------------------------------------->
-<section>
-  <div class="grid">
-    <div class="card album-card" data-yt="PLHwvDXmNUa92NlFPooY1P5tfDo4T85ORz">
-      <img src="img/slow-rush.jpg"  alt="The Slow Rush"/>
-      <strong>Escuchar: The Slow Rush</strong>
+  <!-- ÁLBUMES -->
+  <section id="albums">
+    <div class="grid">
+      <div class="card album-card" data-yt="PLHwvDXmNUa92NlFPooY1P5tfDo4T85ORz">
+        <img src="img/slow-rush.jpg" alt="The Slow Rush"/>
+        <strong>Escuchar: The Slow Rush</strong>
+      </div>
+      <div class="card album-card" data-yt="OLAK5uy_k7FTSn7ydw3cNY9X5w2UJYVO7fLXPDTik">
+        <img src="img/currents.jpg" alt="Currents"/>
+        <strong>Escuchar: Currents</strong>
+      </div>
+      <div class="card album-card" data-yt="OLAK5uy_klpNi0OC9ETbDP7mEICIT60hLHc_KOZiY">
+        <img src="img/lonerism.jpg" alt="Lonerism"/>
+        <strong>Escuchar: Lonerism</strong>
+      </div>
+      <div class="card album-card" data-yt="OLAK5uy_k4doG5RdilYBelHruNokW5rhEUHl46tEM">
+        <img src="img/innerspeaker.jpg" alt="Innerspeaker"/>
+        <strong>Escuchar: Innerspeaker</strong>
+      </div>
     </div>
-    <div class="card album-card" data-yt="OLAK5uy_k7FTSn7ydw3cNY9X5w2UJYVO7fLXPDTik">
-      <img src="img/currents.jpg"   alt="Currents"/>
-      <strong>Escuchar: Currents</strong>
-    </div>
-    <div class="card album-card" data-yt="OLAK5uy_klpNi0OC9ETbDP7mEICIT60hLHc_KOZiY">
-      <img src="img/lonerism.jpg"   alt="Lonerism"/>
-      <strong>Escuchar: Lonerism</strong>
-    </div>
-    <div class="card album-card" data-yt="OLAK5uy_k4doG5RdilYBelHruNokW5rhEUHl46tEM">
-      <img src="img/innerspeaker.jpg" alt="Innerspeaker"/>
-      <strong>Escuchar: Innerspeaker</strong>
-    </div>
+  </section>
+
+  <!-- REPRODUCTOR -->
+  <div id="player">
+    <button onclick="closePlayer()">×</button>
+    <iframe src="" allowfullscreen></iframe>
   </div>
-</section>
 
-<!-- REPRODUCTOR --------------------------------------------------------->
-<div id="player">
-  <button onclick="closePlayer()">×</button>
-  <iframe src="" allowfullscreen></iframe>
-</div>
+  <footer>
+    Fan site sin fines de lucro — © 2025
+  </footer>
 
-<footer>
-  Fan site sin fines de lucro — © 2025
-</footer>
+  <script>
+    /* Noticias desde news.json */
+    const newsBox = document.getElementById('news-box');
+    fetch('news.json')
+      .then(r => r.json())
+      .then(arr => {
+        arr.reverse().forEach(n => {
+          newsBox.insertAdjacentHTML(
+            'beforeend',
+            `<article class="card">
+               ${n.img ? `<img class="news-img" src="${n.img}" alt="${n.title}">` : ''}
+               <h3>${n.title}</h3>
+               <p>${n.text}</p>
+               <small>${n.date}</small>
+             </article>`
+          );
+        });
+      });
 
-<script>
-/* 1 · Noticias desde news,json */
-/* 1 · Noticias desde news,json */
-const newsBox = document.getElementById('news-box');
-fetch('news.json')
-  .then(r => r.json())
-  .then(arr => {
-    arr.reverse().forEach(n => {
-      newsBox.insertAdjacentHTML(
-        'beforeend',
-        `<article class="card">
-           ${n.img ? `<img class="news-img" src="${n.img}" alt="${n.title}">` : ''}
-           <h3>${n.title}</h3>
-           <p>${n.text}</p>
-           <small>${n.date}</small>
-         </article>`
-      );
+    /* Reproductor de álbumes */
+    function closePlayer() {
+      document.getElementById('player').style.display = 'none';
+    }
+    document.querySelectorAll('.album-card').forEach(card => {
+      card.onclick = () => {
+        const id = card.dataset.yt;
+        document.querySelector('#player iframe').src =
+          `https://www.youtube.com/embed/videoseries?list=${id}`;
+        document.getElementById('player').style.display = 'flex';
+      };
     });
-  });
-
-/* 2 · Reproductor con playlist completa */
-function closePlayer(){document.getElementById('player').style.display='none';}
-document.querySelectorAll('.album-card').forEach(card=>{
-  card.onclick=()=>{
-    const id=card.dataset.yt;
-    document.querySelector('#player iframe').src=
-      `https://www.youtube.com/embed/videoseries?list=${id}`;
-    document.getElementById('player').style.display='flex';
-  };
-});
-</script>
+  </script>
 </body>
 </html>
+```0
