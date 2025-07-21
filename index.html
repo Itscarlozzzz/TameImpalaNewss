@@ -185,17 +185,21 @@ footer{margin-top:auto;text-align:center;font-size:.8rem;padding:1rem 0;}
 
 <script>
 /* 1 · Noticias desde news.json */
-const newsBox=document.getElementById('news-box');
+/* 1 · Noticias desde news.json */
+const newsBox = document.getElementById('news-box');
 fetch('news.json')
-  .then(r=>r.json())
-  .then(arr=>{
-    arr.reverse().forEach(n=>{
-      newsBox.insertAdjacentHTML('beforeend',`
-        <article class="card">
-          <h3>${n.title}</h3>
-          <p>${n.text}</p>
-          <small>${n.date}</small>
-        </article>`);
+  .then(r => r.json())
+  .then(arr => {
+    arr.reverse().forEach(n => {
+      newsBox.insertAdjacentHTML(
+        'beforeend',
+        `<article class="card">
+           ${n.img ? `<img class="news-img" src="${n.img}" alt="${n.title}">` : ''}
+           <h3>${n.title}</h3>
+           <p>${n.text}</p>
+           <small>${n.date}</small>
+         </article>`
+      );
     });
   });
 
