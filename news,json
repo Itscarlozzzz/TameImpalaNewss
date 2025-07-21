@@ -1,7 +1,14 @@
 [
   {
-    "title": "¡Sitio fan en línea!",
-    "text": "Arrancamos con todas las letras, playlists y noticias de Tame Impala.",
-    "date": "2025-07-24"
+    "title": "Posible single?",
+    "text":  "El jueves 17 de julio, Kevin Parker nos sorprendio revelando un vinilo en blanco con una fecha de lanzamiento el 25 de julio. será este el regreso de Tame Impala?",
+    "date":  "2025-07-24",
+    "img":   "img/news/currents-vinilo.jpg"
+  },
+  {
+    "title": "Gira latinoamericana confirmada",
+    "text":  "México, Brasil, Argentina y Chile en 2026.",
+    "date":  "2025-07-23",
+    "img":   "img/news/latam-tour.jpg"
   }
 ]
